@@ -11,7 +11,7 @@ https://www.kaggle.com/datasets/datasnaek/youtube-new
 
 #### Project Goal
 
-Using pandas clean the csv file for the data.
-Use pandas to read the json data and create a Dataframe and merge the data together to create region specific clear data.
-Combine each region data to create some nice visuals.
+- Using pandas clean the csv file for the data.
+- Use pandas to read the json data and create a Dataframe and merge the data together to create region specific clear data.
+- Combine each region data to create some nice visuals.
 
