@@ -56,11 +56,28 @@ class YoutubeDataAnalysis(BaseModel):
             return self.all_category_data[region][category_id]
         return None
     
+    # Handling missing values
+    def handle_missing_values(self):
+        self.df_videos.fillna("", inplace=True)
+        numeric_columns = self.df_videos.select_dtypes(include=["float64", "int64"]).columns
+        for col in numeric_columns:
+            # Filling missing values with the mean of the column
+            # Change if the code becomes too slow
+            self.df_videos[col].fillna(self.df_videos[col].mean(), inplace=True)
+    
+    # Dropping duplicates
+    def drop_duplicates(self):
+        # It is not a good idea to drop data but if everything is duplicated in this case we can drop it for cleanliness
+        # Drop duplicates based on all columns
+        self.df_videos.drop_duplicates(inplace=True)
+    
     def data_concatination(self):
         self.videos_data()
         self.category_data()
         self.df_videos["category_name"] = self.df_videos.apply(self.get_category_name, axis=1)
-        
+        self.handle_missing_values()
+        # Dropping duplicates
+    
         
 def main():
     yt_data_analysis = YoutubeDataAnalysis(path="./data")
