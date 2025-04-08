@@ -2,6 +2,7 @@ import pandas as pd
 import json
 import os
 from pydantic import BaseModel
+import re
 
 class YoutubeDataAnalysis(BaseModel):
     path: str
@@ -28,14 +29,12 @@ class YoutubeDataAnalysis(BaseModel):
                     concatinated_data.append(df)
 
         self.df_videos = pd.concat(concatinated_data, ignore_index=True)
-        print("Initial Video Dataframe info:")
-        self.df_videos.info()
+        # print("Initial Video Dataframe info:")
+        # self.df_videos.info()
         # Checking if all the data is loaded correctly
         contries = self.df_videos["region"].unique()
         # If you can see all the countries in the data, then it is loaded correctly
         print(f"Countries in the data: {contries}")
-        # Checking if the data exists
-        print(self.df_videos.head(10))
 
     # Prepare Category data for the analysis
     def category_data(self):
@@ -71,12 +70,45 @@ class YoutubeDataAnalysis(BaseModel):
         # Drop duplicates based on all columns
         self.df_videos.drop_duplicates(inplace=True)
     
+    # Cleaning text
+    def clean_text(self, text):
+        if isinstance(text, str):
+            text = re.sub(r"[^a-zA-Z0-9\s]", "", text) # Remove special characters
+            text = " ".join(text.split()) # Remove extra spaces
+            # Convert to lowercase
+            text = text.lower()
+            return text
+        return text
+    
+    def create_new_features(self):
+        self.df_videos['trending_day'] = self.df_videos['trending_date'].dt.day_name()
+        self.df_videos['trending_month'] = self.df_videos['trending_date'].dt.month_name()
+        self.df_videos["publish_day"] = self.df_videos["publish_time"].dt.day_name()
+        self.df_videos["publish_hour"] = self.df_videos["publish_time"].dt.hour
+        self.df_videos["like_ratio"] = self.df_videos["likes"].astype(float) / (self.df_videos["dislikes"].astype(float) + 1) # Adding 1 to avoid division by zero
+        self.df_videos["comment_ratio"] = self.df_videos["comment_count"].astype(float) / (self.df_videos["views"].astype(float) + 1) # Adding 1 to avoid division by zero
+        
+    # Data Cleaning and Preparation
+    def data_cleaning(self):
+        # Converting 'trending_date' to datetime
+        self.df_videos["trending_date"] = pd.to_datetime(self.df_videos["trending_date"], format="%y.%d.%m")
+        # Converting 'publish_time' to datetime
+        self.df_videos["publish_time"] = pd.to_datetime(self.df_videos["publish_time"], format="%Y-%m-%dT%H:%M:%S.%fZ")
+        self.df_videos["title_cleaned"] = self.df_videos["title"].apply(self.clean_text)
+        self.df_videos["channel_title_cleaned"] = self.df_videos["channel_title"].apply(self.clean_text)
+        
+        
     def data_concatination(self):
         self.videos_data()
         self.category_data()
         self.df_videos["category_name"] = self.df_videos.apply(self.get_category_name, axis=1)
         self.handle_missing_values()
         # Dropping duplicates
+        self.drop_duplicates()
+        self.data_cleaning()
+        self.create_new_features()
+        print("*********************************")
+        print(self.df_videos.loc[[0, 1, 2, 3, 4], ["title", "likes", "dislikes", "like_ratio"]])
     
         
 def main():
