@@ -69,7 +69,7 @@ This repository contains the code and resources for the following stages of the 
 
 ## 📊 Key Findings (So Far)
 
-* **Music Dominance:** The "Music" category consistently exhibits the highest average view counts across the majority of analyzed regions, suggesting a broad and highly engaged audience for music-related content.
+* **Music Dominance:** The "Entertainment", "People & Blogs" and "Music" category consistently exhibits the highest average view counts across the majority of analyzed regions.
 * **Regional Engagement Preferences:** The United States and Great Britain tend to show higher overall average engagement (views, likes, and comments) compared to Canada.
 * **Strong Positive Correlation:** A strong positive correlation exists between the number of views and the number of likes a video receives, indicating that higher viewership generally leads to more positive feedback.
 * **Weekend Trending Peaks:** There is a noticeable increase in the number of new videos entering the trending charts on Fridays and Saturdays across several regions.
