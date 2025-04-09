@@ -25,25 +25,6 @@ This repository contains the code and resources for the following stages of the 
 * **SQLAlchemy:** For interacting with SQL databases (SQLite in this case).
 * **(Optional) Streamlit:** For building and deploying the interactive dashboard.
 
-## 📂 Repository Structure
-├── data/                     # Contains the downloaded YouTube datasets (not committed due to size)
-├
-├── plots/                    # (Optional) Directory to store generated visualizations and results
-├
-├── data_cleaning.py          # Python script for data loading and cleaning
-├
-├── data_cleaning_initial.py  # Jupyter notebook to check how the data looks
-├
-├── analysis.py               # Data gathering/cleaning/concatinating/saving and Exploratory Data Analysis (EDA).
-├
-├── sql_analysis.py           # Python script for SQL queries and analysis
-├
-└── streamlit_dashboard.py    # (Optional) Python script for the Streamlit dashboard (COMING SOON)
-├
-├── README.md                 # The file you are currently reading
-├
-└── requirements.txt          # List of Python dependencies
-
 ## ⚙️ Setup and Installation
 
 1.  **Clone the repository:**
