@@ -107,8 +107,8 @@ class YoutubeDataAnalysis(BaseModel):
         self.drop_duplicates()
         self.data_cleaning()
         self.create_new_features()
-        print("*********************************")
-        print(self.df_videos.loc[[0, 1, 2, 3, 4], ["title", "likes", "dislikes", "like_ratio"]])
+        self.df_videos.to_csv(f"{self.path}/cleaned_data.csv", index=False)
+        print("Cleaned data saved to cleaned_data.csv")
     
         
 def main():
